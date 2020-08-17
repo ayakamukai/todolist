@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Todo;
+use App\Http\Requests\TodoRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TodoController extends Controller
 {
@@ -15,7 +17,7 @@ class TodoController extends Controller
     }
 
     //登録処理
-    public function store(Request $request)
+    public function store(TodoRequest $request)
     {
         $todos = new Todo;
         $todos->content = $request->content;

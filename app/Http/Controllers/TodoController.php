@@ -29,11 +29,17 @@ class TodoController extends Controller
     // 変更処理
     public function update(Request $request, int $id)
     {
-        // $categories = Category::findOrFail($id);
-        // $categories->name = $request->name;
-        // $categories->save();
-        // return redirect()->route('category.index');
-    }
+        try {
+            $todo = Todo::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('index')->withErrors(['ID' => '指定したTodoが存在しません']);
+        }
+            $todo->content = $request->content;
+            $todo->status = $request->status;
+            $todo->date = $request->date;
+            $todo->save();
+            return redirect()->route('index');
+        }
 
     // 削除処理
     public function delete(Request $request, int $id)
@@ -41,10 +47,10 @@ class TodoController extends Controller
         try {
             $todos = Todo::findOrFail($id);
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('index')->withErrors(['ID' => '指定した予定が存在しません']);
+            return redirect()->route('index')->withErrors(['ID' => '指定したTodoが存在しません']);
         }
           $todos->delete();
-          return redirect()->route('index')->with('status', '予定を消去しました！');
+          return redirect()->route('index')->with('status', 'Todoを消去しました');
         }
 
 }

@@ -23,7 +23,7 @@ class TodoController extends Controller
         $todos->content = $request->content;
         $todos->save();
 
-        return redirect()->route('index');
+        return redirect()->route('index')->with('status', 'Todoを追加しました');
     }
 
     // 変更処理

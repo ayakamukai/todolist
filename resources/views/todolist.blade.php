@@ -24,7 +24,6 @@
   <div class="m-2 p-3 bg-white">
     <h3 class="mb-5">ToDo</h3>
 
-    <div class="container mb-5">
     <div class="form-group row">
       <form class="form-inline form-row w-100 m-3" action="{{ route('store') }}" method="post">
       {{ csrf_field() }}
@@ -40,11 +39,16 @@
       </form>
     </div>
       @if ($errors->has('content'))
-        <div class="invalid-feedback offset-1 col-9">
+        <div class="alert alert-danger">
           {{ $errors->first('content') }}
         </div>
       @endif
-    </div>
+      @if (session('status'))
+        <div class="alert alert-success">
+          {{ session('status') }}
+        </div>
+      @endif
+
       
       @foreach ($todos as $todo)
         <div class="row m-3" style="margin:0 auto;">

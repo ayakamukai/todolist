@@ -10,9 +10,16 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class TodoController extends Controller
 {
     //一覧
-    public function index()
+    public function index(Request $request)
     {
-        $todos = Todo::all();
+        //ソート
+        $status = $request->search;
+        if(isset($status)){
+            $todos = Todo::where('status', $status)->get();
+        }else{
+            $todos = Todo::all();
+        }
+
         return view('todolist', ['todos' => $todos]);
     }
 

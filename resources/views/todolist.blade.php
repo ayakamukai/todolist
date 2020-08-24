@@ -1,22 +1,22 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-        <title>To Do List</title>
+      <title>To Do List</title>
 
-        <style type="text/css">
-        .invalid-feedback{
-          display: block;
-        }
-        
-        </style>
-
+      <style type="text/css">
+      .invalid-feedback{
+        display: block;
+      }
+      </style>
+  </head>
+<body>
 <div class="container">
   <div class="m-2 p-3 bg-white">
     <h3 class="mb-5">ToDo</h3>
@@ -46,17 +46,22 @@
         </div>
       @endif
 
-      
-      @foreach ($todos as $todo)
-        <div class="row m-3" style="margin:0 auto;">
-          <div class="todo col-6">
-            <ul>
-             <li><sapn class="">{{ $todo->content }}</span></li>
-            </ul>
+      @if(count($todos) > 0)
+        @foreach ($todos as $todo)
+          <div class="row m-3" style="margin:0 auto;">
+            <div class="todo col-6">
+              <ul>
+              <li><sapn class="">{{ $todo->content }}</span></li>
+              </ul>
+            </div>
           </div>
-        </div>
-      @endforeach
+        @endforeach
+      @else
+      <div class="todo col-6">Todoがありません</div>
+      @endif
 
   </div>
 </div>
+</body>
+</html>
 

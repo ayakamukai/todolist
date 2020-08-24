@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Todo;
 use App\Http\Requests\TodoRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Carbon\Carbon;
 
 class TodoController extends Controller
 {
@@ -40,6 +41,15 @@ class TodoController extends Controller
             $todo->save();
 
             return redirect()->route('index');
+    }
+
+    // 全件更新
+    public function doneAll(Request $request)
+    {
+        Todo::where('status', 0)->update(['status' => 1, 
+                                        'date' => Carbon::now()]);
+
+            return redirect()->route('index')->with('status', 'Todoを全件済みにしました');;
     }
 
     // 削除処理

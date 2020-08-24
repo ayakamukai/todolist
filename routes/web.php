@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/', 'TodoController@index')->name('index');
+Route::post('/store', 'TodoController@store')->name('store');

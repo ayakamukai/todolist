@@ -38,8 +38,9 @@ class TodoController extends Controller
             $todo->status = $request->status;
             $todo->date = $request->date;
             $todo->save();
+
             return redirect()->route('index');
-        }
+    }
 
     // 削除処理
     public function delete(Request $request, int $id)
@@ -51,6 +52,13 @@ class TodoController extends Controller
         }
           $todos->delete();
           return redirect()->route('index')->with('status', 'Todoを消去しました');
-        }
+    }
+
+    // 全件削除
+    public function deleteAll()
+    {   
+        Todo::query()->delete();
+        return redirect()->route('index')->with('status', 'Todoを全件削除しました');
+    }
 
 }

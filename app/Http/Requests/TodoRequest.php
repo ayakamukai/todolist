@@ -32,8 +32,8 @@ class TodoRequest extends FormRequest
     public function messages()
     {
         return [
-            'required' => '入力されていません',
-            'content.max' => '30文字以内で入力してください', 
+            'required' => ':attributeが入力されていません',
+            'max' => ':max文字以内で入力してください',  
         ];
     }
 }

@@ -25,7 +25,7 @@ class TodoRequest extends FormRequest
     {
         return [
             'content' => ['required',
-                        'max:30',]
+                        'max:30']
         ];
     }
 

@@ -12,10 +12,14 @@
 
       <style type="text/css">
       .invalid-feedback{
-        display: block;
-      }
+          display: block;
+        }
+      .status{
+          text-decoration: line-through;
+        }
       </style>
   </head>
+  
 <body>
 <div class="container">
   <div class="m-2 p-3 bg-white">
@@ -49,17 +53,27 @@
       @if(count($todos) > 0)
         @foreach ($todos as $todo)
           <div class="row m-3" style="margin:0 auto;">
-            <div class="todo col-6">
-              <ul>
-              <li><sapn class="">{{ $todo->content }}</span></li>
-              </ul>
+          @if( $todo->status == 0)
+            <div class="form-group col-1">
+              <form class="form-inline" action="{{ route('update', ['id' => $todo->id]) }}" method="post">
+                {{ csrf_field() }}
+                {{ method_field('PUT') }}
+                <input type="hidden" name="status" value="1">
+                <button type="submit" class="btn btn-info">済</button>
+              </form>
+            </div>
+            @elseif( $todo->status == 1)
+            <div class="col-1">
+            </div>
+            @endif
+            <div class="todo col-8">
+              <sapn class="@if($todo->status == 1) status @endif">{{ $todo->content }}</span>
             </div>
           </div>
         @endforeach
       @else
-      <div class="todo col-6">Todoがありません</div>
+      <div class="todo col-8">Todoがありません</div>
       @endif
-
   </div>
 </div>
 </body>

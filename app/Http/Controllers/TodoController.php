@@ -27,15 +27,14 @@ class TodoController extends Controller
      }
 
      // 変更処理
-    public function update(Request $request, int $id)
+    public function update(int $id)
     {
         try {
             $todo = Todo::findOrFail($id);
         } catch (ModelNotFoundException $e) {
             return redirect()->route('index')->withErrors(['ID' => '指定したTodoが存在しません']);
         }
-            $todo->status = $request->status;
-            $todo->update();
+            $todo->update(['status' => 1]);
             return redirect()->route('index');
         }
 }

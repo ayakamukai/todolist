@@ -55,19 +55,23 @@
           <div class="row m-3" style="margin:0 auto;">
           @if( $todo->status == 0)
             <div class="form-group col-1">
-              <a href="{{ route('update', ['id' => $todo->id]) }}" class="btn btn-info">済</a>
+              <form class="form-inline" action="{{ route('update', ['id' => $todo->id]) }}" method="post">
+                {{ csrf_field() }}
+                {{ method_field('PUT') }}
+                <button type="submit" class="btn btn-info">済</button>
+              </form>
             </div>
-            @elseif( $todo->status == 1)
+          @elseif( $todo->status == 1)
             <div class="col-1">
             </div>
-            @endif
+          @endif
             <div class="todo col-8">
               <sapn class="@if($todo->status == 1) status @endif">{{ $todo->content }}</span>
             </div>
           </div>
         @endforeach
       @else
-      <div class="todo col-8">Todoがありません</div>
+        <div class="todo col-8">Todoがありません</div>
       @endif
   </div>
 </div>

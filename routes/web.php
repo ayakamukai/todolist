@@ -17,4 +17,4 @@
 
 Route::get('/', 'TodoController@index')->name('index');
 Route::post('/store', 'TodoController@store')->name('store');
-Route::get('/update/{id}', 'TodoController@update')->name('update');
+Route::put('/update/{id}', 'TodoController@update')->name('update');

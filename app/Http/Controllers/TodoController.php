@@ -21,6 +21,7 @@ class TodoController extends Controller
      {
          $todos = new Todo;
          $todos->content = $request->content;
+         $todos->status = 0;
          $todos->save();
  
          return redirect()->route('index')->with('status', 'Todoを追加しました');

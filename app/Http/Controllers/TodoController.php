@@ -36,7 +36,7 @@ class TodoController extends Controller
             return redirect()->route('index')->withErrors(['ID' => '指定したTodoが存在しません']);
         }
             $todo->update(['status' => 1]);
-            return redirect()->route('index');
+            return redirect()->route('index')->with('status', 'Todo達成！');
         }
 
     // 削除処理

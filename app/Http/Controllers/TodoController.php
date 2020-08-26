@@ -38,4 +38,16 @@ class TodoController extends Controller
             $todo->update(['status' => 1]);
             return redirect()->route('index');
         }
+
+    // 削除処理
+    public function delete(int $id)
+    {   
+        try {
+            $todos = Todo::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('index')->withErrors(['ID' => '指定したTodoが存在しません']);
+        }
+            $todos->delete();
+            return redirect()->route('index')->with('status', 'Todoを消去しました');
+        }
 }

@@ -17,6 +17,12 @@
       .status{
           text-decoration: line-through;
         }
+      .delete{
+          border: none;
+          background-color:transparent;
+          color:blue;
+          text-decoration:underline;
+      }
       </style>
   </head>
   
@@ -67,6 +73,13 @@
           @endif
             <div class="todo col-8">
               <sapn class="@if($todo->status == 1) status @endif">{{ $todo->content }}</span>
+            </div>
+            <div class="form-group col-1">
+              <form class="form-inline" action="{{ route('delete', ['id' => $todo->id]) }}" method="post">
+                {{ csrf_field() }}
+                {{ method_field('delete') }}
+                <input type="submit" value="✕" class="delete">
+              </form>
             </div>
           </div>
         @endforeach

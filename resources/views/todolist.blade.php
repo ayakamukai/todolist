@@ -7,7 +7,10 @@
       
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
       <title>To Do List</title>
 
       <style type="text/css">
@@ -17,6 +20,12 @@
       .status{
           text-decoration: line-through;
         }
+      .delete{
+          border: none;
+          background-color:transparent;
+          color:blue;
+          text-decoration:underline;
+      }
       </style>
   </head>
   
@@ -44,8 +53,13 @@
           {{ $errors->first('content') }}
         </div>
       @endif
-      @if (session('status'))
+      @if (session('success'))
         <div class="alert alert-success">
+          {{ session('success') }}
+        </div>
+      @endif
+      @if (session('status'))
+        <div class="alert alert-primary">
           {{ session('status') }}
         </div>
       @endif
@@ -67,6 +81,13 @@
           @endif
             <div class="todo col-8">
               <sapn class="@if($todo->status == 1) status @endif">{{ $todo->content }}</span>
+            </div>
+            <div class="form-group col-1">
+              <form class="form-inline" action="{{ route('delete', ['id' => $todo->id]) }}" method="post">
+                {{ csrf_field() }}
+                {{ method_field('delete') }}
+                <input type="submit" value="✕" class="delete">
+              </form>
             </div>
           </div>
         @endforeach

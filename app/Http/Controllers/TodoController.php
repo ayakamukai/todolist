@@ -24,7 +24,7 @@ class TodoController extends Controller
          $todos->status = 0;
          $todos->save();
  
-         return redirect()->route('index')->with('status', 'Todoを追加しました');
+         return redirect()->route('index')->with('success', 'Todoを追加しました');
      }
 
      // 変更処理
@@ -36,6 +36,18 @@ class TodoController extends Controller
             return redirect()->route('index')->withErrors(['ID' => '指定したTodoが存在しません']);
         }
             $todo->update(['status' => 1]);
-            return redirect()->route('index');
+            return redirect()->route('index')->with('status', 'Todo達成！');
+        }
+
+    // 削除処理
+    public function delete(int $id)
+    {   
+        try {
+            $todos = Todo::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('index')->withErrors(['ID' => '指定したTodoが存在しません']);
+        }
+            $todos->delete();
+            return redirect()->route('index')->with('success', 'Todoを消去しました');
         }
 }

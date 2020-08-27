@@ -24,7 +24,7 @@ class TodoController extends Controller
          $todos->status = 0;
          $todos->save();
  
-         return redirect()->route('index')->with('status', 'Todoを追加しました');
+         return redirect()->route('index')->with('success', 'Todoを追加しました');
      }
 
      // 変更処理
@@ -48,6 +48,6 @@ class TodoController extends Controller
             return redirect()->route('index')->withErrors(['ID' => '指定したTodoが存在しません']);
         }
             $todos->delete();
-            return redirect()->route('index')->with('status', 'Todoを消去しました');
+            return redirect()->route('index')->with('success', 'Todoを消去しました');
         }
 }

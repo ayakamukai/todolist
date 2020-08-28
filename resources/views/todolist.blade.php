@@ -77,7 +77,7 @@
             </div>
           @elseif( $todo->status == 1)
           <div class="todo col-2">
-            <sapn >{{ $todo->date }}</span>
+            <sapn >{{ $todo->date->format('Y-n-j') }}</span>
           </div>
           @endif
             <div class="todo col-8">

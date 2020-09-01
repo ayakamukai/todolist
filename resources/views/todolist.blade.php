@@ -68,7 +68,7 @@
         @foreach ($todos as $todo)
           <div class="row m-3" style="margin:0 auto;">
           @if( $todo->status == 0)
-            <div class="form-group col-1">
+            <div class="form-group col-2">
               <form class="form-inline" action="{{ route('update', ['id' => $todo->id]) }}" method="post">
                 {{ csrf_field() }}
                 {{ method_field('PUT') }}
@@ -76,13 +76,18 @@
               </form>
             </div>
           @elseif( $todo->status == 1)
-            <div class="col-1">
-            </div>
+          <div class="todo col-2">
+            <sapn>
+              @if(!$todo->date == null)
+                {{ $todo->date->format('Y-n-j') }}
+              @endif
+            </span>
+          </div>
           @endif
             <div class="todo col-8">
               <sapn class="@if($todo->status == 1) status @endif">{{ $todo->content }}</span>
             </div>
-            <div class="form-group col-1">
+            <div class="form-group col-2">
               <form class="form-inline" action="{{ route('delete', ['id' => $todo->id]) }}" method="post">
                 {{ csrf_field() }}
                 {{ method_field('delete') }}

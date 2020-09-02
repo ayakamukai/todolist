@@ -11,9 +11,19 @@ use Carbon\Carbon;
 class TodoController extends Controller
 {
      //一覧
-     public function index()
+     public function index(Request $request)
      {
-         $todos = Todo::all();
+        //ソート
+        $status = $request->search;
+        if(isset($status) && is_numeric($status)){
+          if($status == 1 || $status == 0){
+            $todos = Todo::where('status', $status)->get();
+          }else{
+            $todos = Todo::all();
+          }
+        }else{
+            $todos = Todo::all();
+        }
          return view('todolist', ['todos' => $todos]);
      }
  
@@ -28,8 +38,8 @@ class TodoController extends Controller
          return redirect()->route('index')->with('success', 'Todoを追加しました');
      }
 
-     // 変更処理
-    public function update(int $id)
+    // 変更処理
+    public function update(Request $request, int $id)
     {
         try {
             $todo = Todo::findOrFail($id);

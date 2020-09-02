@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule; 
 
 class TodoRequest extends FormRequest
 {
@@ -25,7 +26,8 @@ class TodoRequest extends FormRequest
     {
         return [
             'content' => ['required',
-                        'max:30']
+                        'max:30',
+                        Rule::unique('todos')->where('status', 0)]
         ];
     }
 
@@ -33,7 +35,8 @@ class TodoRequest extends FormRequest
     {
         return [
             'required' => ':attributeが入力されていません',
-            'content.max' => ':max文字以内で入力してください',  
+            'content.max' => ':max文字以内で入力してください',
+            'unique' => '未済のTodoと重複しています'
         ];
     }
 
@@ -41,6 +44,6 @@ class TodoRequest extends FormRequest
     {
         return [
             'content' => 'Todo'
-        ];
+                ];
     }
 }

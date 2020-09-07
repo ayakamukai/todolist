@@ -26,6 +26,10 @@
           color:blue;
           text-decoration:underline;
       }
+      .selected {
+        pointer-events:none;
+        color:#000;
+      }
       </style>
   </head>
   
@@ -69,13 +73,13 @@
       <!-- ソート -->
       <div class="row">
         <div class="offset-2 col-2">
-              <a href="{{ route('index') }}" class="">全て</a>
+              <a href="{{ route('index') }}" class="@if(\Request::fullUrl() == url('')) selected @endif">全て</a>
         </div>
         <div class="col-2">
-              <a href="{{ route('index', ['search' => 0 ]) }}" class="">未済</a>
+              <a href="{{ route('index', ['search' => 0 ]) }}" class="@if(\Request::getRequestUri() == '/?search=0') selected @endif">未済</a>           
         </div>
         <div class="col-2">
-              <a href="{{ route('index', ['search' => 1 ]) }}" class="">済み</a>
+              <a href="{{ route('index', ['search' => 1 ]) }}" class="@if(\Request::getRequestUri() == '/?search=1') selected @endif">済み</a>
         </div>
        </div>
 

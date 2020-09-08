@@ -26,6 +26,10 @@
           color:blue;
           text-decoration:underline;
       }
+      .selected {
+        pointer-events:none;
+        color:#000;
+      }
       </style>
   </head>
   
@@ -34,6 +38,7 @@
   <div class="m-2 p-3 bg-white">
     <h3 class="mb-5">ToDo</h3>
 
+    <!-- フォーム -->
     <div class="form-group row">
       <form class="form-inline form-row w-100 m-3" action="{{ route('store') }}" method="post">
       {{ csrf_field() }}
@@ -48,6 +53,7 @@
         </div>
       </form>
     </div>
+      <!-- アラート -->
       @if ($errors->has('content'))
         <div class="alert alert-danger">
           {{ $errors->first('content') }}
@@ -64,6 +70,21 @@
         </div>
       @endif
 
+
+      <!-- ソート -->
+      <div class="row">
+        <div class="offset-2 col-2">
+              <a href="{{ route('index') }}" class="@if(!isset($status)) selected @endif">全て</a>
+        </div>
+        <div class="col-2">
+              <a href="{{ route('index', ['search' => 0 ]) }}" class="@if(isset($status) && $status == 0) selected @endif">未済</a>           
+        </div>
+        <div class="col-2">
+              <a href="{{ route('index', ['search' => 1 ]) }}" class="@if(isset($status) && $status == 1) selected @endif">済み</a>
+        </div>
+       </div>
+
+      <!-- Todos表示 -->
       @if(count($todos) > 0)
         @foreach ($todos as $todo)
           <div class="row m-3" style="margin:0 auto;">

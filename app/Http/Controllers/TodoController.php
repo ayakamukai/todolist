@@ -20,11 +20,13 @@ class TodoController extends Controller
             $todos = Todo::where('status', $status)->get();
           }else{
             $todos = Todo::all();
+            $status = null;
           }
         }else{
             $todos = Todo::all();
+            $status = null;
         }
-         return view('todolist', ['todos' => $todos]);
+         return view('todolist', ['todos' => $todos, 'status' => $status]);
      }
  
      //登録処理

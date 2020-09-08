@@ -26,7 +26,16 @@ class TodoController extends Controller
             $todos = Todo::all();
             $status = null;
         }
-         return view('todolist', ['todos' => $todos, 'status' => $status]);
+
+        //未済があるか
+        $yet = Todo::where('status', 0)->first();
+        if(empty($yet)){
+            $selected = 'selected';
+        }else{
+            $selected = '';
+        }
+
+         return view('todolist', ['todos' => $todos, 'status' => $status, 'selected' => $selected]);
      }
  
      //登録処理
@@ -51,7 +60,15 @@ class TodoController extends Controller
             $todo->update(['status' => 1,
                             'date' => Carbon::now()]);
             return redirect()->route('index')->with('status', 'Todo達成！');
-        }
+    }
+
+    // 全件更新
+    public function doneAll(Request $request)
+    {
+        Todo::where('status', 0)->update(['status' => 1, 
+                                        'date' => Carbon::now()]);
+            return redirect()->route('index')->with('status', 'Todoを全件済みにしました');;
+    }
 
     // 削除処理
     public function delete(int $id)
@@ -61,7 +78,15 @@ class TodoController extends Controller
         } catch (ModelNotFoundException $e) {
             return redirect()->route('index')->withErrors(['ID' => '指定したTodoが存在しません']);
         }
-            $todos->delete();
-            return redirect()->route('index')->with('success', 'Todoを消去しました');
-        }
+          $todos->delete();
+          return redirect()->route('index')->with('success', 'Todoを消去しました');
+    }
+
+    // 全件削除
+    public function deleteAll(Request $request)
+    {   
+        Todo::query()->delete();
+        return redirect()->route('index')->with('success', 'Todoを全件削除しました');
+    }
+
 }

@@ -19,3 +19,6 @@ Route::get('/', 'TodoController@index')->name('index');
 Route::post('/store', 'TodoController@store')->name('store');
 Route::put('/update/{id}', 'TodoController@update')->name('update');
 Route::delete('/delete/{id}', 'TodoController@delete')->name('delete');
+Route::put('/doneAll', 'TodoController@doneAll')->name('doneAll');
+Route::delete('/deleteAll', 'TodoController@deleteAll')->name('deleteAll');
+

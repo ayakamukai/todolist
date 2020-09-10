@@ -1,17 +1,19 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
-  <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      
-      <!-- Bootstrap CSS -->
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-      <title>To Do List</title>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+        <title>To Do List</title>
 
       <style type="text/css">
       .invalid-feedback{
@@ -20,10 +22,12 @@
       .status{
           text-decoration: line-through;
         }
-      .delete{
+      .btnlink{
           border: none;
           background-color:transparent;
-          color:blue;
+          color:#007bff;
+      }
+      .btnlink:hover{
           text-decoration:underline;
       }
       .selected {
@@ -74,15 +78,15 @@
       <!-- ソート -->
       <div class="row">
         <div class="offset-2 col-2">
-              <a href="{{ route('index') }}" class="@if(!isset($status)) selected @endif">全て</a>
+          <a href="{{ route('index') }}" class="@if(!isset($status)) selected @endif">全て</a>
         </div>
         <div class="col-2">
-              <a href="{{ route('index', ['search' => 0 ]) }}" class="@if(isset($status) && $status == 0) selected @endif">未済</a>           
+          <a href="{{ route('index', ['search' => 0 ]) }}" class="@if(isset($status) && $status == 0) selected @endif">未済</a>           
         </div>
         <div class="col-2">
-              <a href="{{ route('index', ['search' => 1 ]) }}" class="@if(isset($status) && $status == 1) selected @endif">済み</a>
+          <a href="{{ route('index', ['search' => 1 ]) }}" class="@if(isset($status) && $status == 1) selected @endif">済み</a>
         </div>
-       </div>
+      </div>
 
       <!-- Todos表示 -->
       @if(count($todos) > 0)
@@ -112,16 +116,50 @@
               <form class="form-inline" action="{{ route('delete', ['id' => $todo->id]) }}" method="post">
                 {{ csrf_field() }}
                 {{ method_field('delete') }}
-                <input type="submit" value="✕" class="delete">
+                <input type="submit" value="✕" class="btnlink">
               </form>
             </div>
           </div>
         @endforeach
+        <!-- 一括操作 -->
+        <hr>
+        <div class="row">
+          <div class="col-3">
+            <form class="form-inline" action="{{ route('doneAll') }}" method="post">
+              {{ csrf_field() }}
+              {{ method_field('PUT') }}
+              <input type="submit" value="全て済みとする" class="btnlink doneAll {{ $selected }}">
+            </form>
+          </div>          
+          <div class="col-3">
+            <form class="form-inline" action="{{ route('deleteAll') }}" method="post">
+              {{ csrf_field() }}
+              {{ method_field('delete') }}
+              <input type="submit" value="全て削除する" class="btnlink deleteAll">
+            </form>
+          </div>
+        </div>
       @else
         <div class="todo col-8">Todoがありません</div>
+        <hr>
       @endif
   </div>
 </div>
 </body>
 </html>
 
+<script>
+//全件済み時の処理
+$('.doneAll').click(function(){
+    if(!confirm('本当に全件済みにしますか？')){
+        return false;
+    }
+});
+
+//全件削除時の処理
+$('.deleteAll').click(function(){
+    if(!confirm('本当に全件削除しますか？')){
+        return false;
+    }
+});
+</script>
